@@ -1,0 +1,209 @@
+/* PlayerDashboard.css */
+
+/* Base Styles */
+.player-container {
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+  padding: 3rem 1rem;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.player-content {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Header Styles */
+.player-logo {
+  font-size: 3.5rem;
+  color: #ffc107;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.player-title {
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 1.5rem;
+  position: relative;
+  display: inline-block;
+}
+
+.player-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #ffc107, #ff8a00);
+  border-radius: 2px;
+}
+
+/* Loading Spinner */
+.spinner-gold {
+  width: 3rem;
+  height: 3rem;
+  border-width: 0.25em;
+  color: #ffc107;
+}
+
+/* Quiz Cards */
+.quiz-card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  background: white;
+  overflow: hidden;
+  position: relative;
+}
+
+.quiz-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
+}
+
+.quiz-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, #ffc107, #ff8a00);
+}
+
+.quiz-card-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+}
+
+.quiz-card-title svg {
+  color: #ffc107;
+}
+
+.quiz-card-subtitle {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Difficulty Badges */
+.difficulty-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.difficulty-badge.easy {
+  background-color: #dcfce7;
+  color: #16a34a;
+}
+
+.difficulty-badge.medium {
+  background-color: #fef9c3;
+  color: #ca8a04;
+}
+
+.difficulty-badge.hard {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+/* Quiz Info */
+.quiz-info {
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+  color: #4b5563;
+}
+
+.quiz-info p {
+  margin-bottom: 0.5rem;
+}
+
+.quiz-info strong {
+  color: #374151;
+}
+
+/* Play Button */
+.play-button-link {
+  text-decoration: none;
+  display: block;
+  margin-top: 1.5rem;
+}
+
+.play-button {
+  width: 100%;
+  padding: 0.75rem;
+  font-weight: 600;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #ffc107, #ff8a00);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.play-button:hover {
+  background: linear-gradient(90deg, #ffb700, #ff7b00);
+  transform: translateY(-2px);
+}
+
+.play-button:active {
+  transform: translateY(0);
+}
+
+/* Alerts */
+.alert {
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.alert-danger {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.alert-info {
+  background-color: #e0f2fe;
+  color: #0369a1;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .player-container {
+    padding: 2rem 1rem;
+  }
+  
+  .player-title {
+    font-size: 1.8rem;
+  }
+  
+  .quiz-card-title {
+    font-size: 1.2rem;
+  }
+}
+
+/* Animation Enhancements */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.quiz-card {
+  animation: fadeIn 0.5s ease forwards;
+}

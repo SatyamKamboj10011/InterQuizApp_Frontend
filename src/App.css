@@ -36,3 +36,48 @@
     transform: rotate(360deg);
   }
 }
+
+.page-container {
+  padding-top: 76px; /* Height of navbar + some extra space */
+}
+
+/* Ensure the background color extends to the whole page */
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  min-height: 100vh;
+}
+.text-gradient-primary {
+  background: linear-gradient(45deg, #007bff, #00b4ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-success {
+  background: linear-gradient(45deg, #28a745, #20c997);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-info {
+  background: linear-gradient(45deg, #17a2b8, #6f42c1);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.bg-gradient-primary {
+  background: linear-gradient(45deg, #007bff, #00b4ff);
+}
+
+.bg-gradient-success {
+  background: linear-gradient(45deg, #28a745, #20c997);
+}
+
+.bg-gradient-info {
+  background: linear-gradient(45deg, #17a2b8, #6f42c1);
+}
+
