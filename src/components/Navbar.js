@@ -92,7 +92,7 @@ const NavigationBar = () => {
 
                   <Nav.Link 
                     as={Link} 
-                    to="/profile" 
+                    to={`/profile/${user?.username}`} 
                     className="profile-link"
                   >
                     <FaUserCircle className="profile-icon" />

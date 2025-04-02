@@ -271,33 +271,34 @@ const ScoreDetails = () => {
                 </tr>
               </thead>
               <tbody>
-                {scoreDetails.answerHistory.map((answer, index) => (
-                  <motion.tr
-                    key={index}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                    className={answer.isCorrect ? 'correct-row' : 'incorrect-row'}
-                  >
-                    <td>{index + 1}</td>
-                    <td>{answer.question}</td>
-                    <td>
-                      {answer.isCorrect ? (
-                        <span className="text-success">{answer.selectedAnswer}</span>
-                      ) : (
-                        <span className="text-danger">{answer.selectedAnswer}</span>
-                      )}
-                    </td>
-                    <td className="text-success font-weight-bold">{answer.correctAnswer}</td>
-                    <td>
-                      {answer.isCorrect ? (
-                        <FaCheck className="text-success" size={20} />
-                      ) : (
-                        <FaTimes className="text-danger" size={20} />
-                      )}
-                    </td>
-                  </motion.tr>
-                ))}
+              {scoreDetails.answerHistory.map((answer, index) => (
+  <motion.tr
+    key={index}
+    initial={{ opacity: 0, x: -10 }}
+    animate={{ opacity: 1, x: 0 }}
+    transition={{ delay: index * 0.05 }}
+    className={answer.isCorrect ? 'correct-row' : 'incorrect-row'}
+  >
+    <td>{index + 1}</td>
+    <td>{answer.question}</td>
+    <td>
+      {answer.isCorrect ? (
+        <span className="text-success">{answer.selectedAnswer}</span>
+      ) : (
+        <span className="text-danger">{answer.selectedAnswer}</span>
+      )}
+    </td>
+    <td className="text-success font-weight-bold">{answer.correctAnswer}</td>
+    <td>
+      {answer.isCorrect ? (
+        <FaCheck className="text-success" size={20} />
+      ) : (
+        <FaTimes className="text-danger" size={20} />
+      )}
+    </td>
+  </motion.tr>
+))}
+              
               </tbody>
             </StyledTable>
 

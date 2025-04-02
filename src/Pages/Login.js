@@ -140,6 +140,18 @@ const Login = () => {
                   )}
                 </Button>
               </motion.div>
+              <div className="text-end mt-2">
+  <motion.a 
+    href="/forgot-password"
+    whileHover={{ scale: 1.05 }}
+    whileTap={{ scale: 0.95 }}
+    className="text-primary"
+    style={{ fontSize: "0.9rem", cursor: "pointer", textDecoration: "underline" }}
+  >
+    Forgot Password?
+  </motion.a>
+</div>
+
 
               <div className="register-link">
                 Don't have an account?{' '}

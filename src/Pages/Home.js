@@ -204,7 +204,7 @@ const HomePage = () => {
         )}
 
         <footer className="footer">
-          <p>Created with ❤️ by SATYAM KAMBOJ | © 2024 QuizMaster</p>
+          <p>Created by SATYAM KAMBOJ | © 2024 QuizMaster</p>
         </footer>
       </Container>
     </div>

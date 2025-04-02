@@ -13,6 +13,9 @@ import Profile from './Pages/Profile';
 import './App.css';
 import ScoreHistory from './components/ScoreHistory';
 import ScoreDetails from './components/ScoreDetails';
+import ForgotPassword from './Pages/ForgotPassword';
+import ResetPassword from './Pages/ResetPassword';
+import EditProfile from './components/EditProfile';
 // Protected Route Component
 const ProtectedRoute = ({ children, allowedRoles = [] }) => {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -45,7 +48,9 @@ function App() {
           <Route path="/registration" element={<Register />} />
           <Route path="/home" element={<Homepage />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
-
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+<Route path="/reset-password/:token" element={<ResetPassword />} />
+<Route path="/edit-profile/:id" element={<EditProfile />} />
           {/* Protected Routes */}
           <Route 
             path="/admin" 

@@ -26,6 +26,7 @@ import {
   FaUsers,
   FaQuestionCircle,
   FaChartPie,
+  FaClock,
 } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import styled from "styled-components";
@@ -135,8 +136,16 @@ const AdminDashboard = () => {
     category: "",
     difficulty: "Easy",
     startDate: new Date().toISOString().split("T")[0],
+    startTime: "12:00",
     endDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
+    endTime: "12:00",
   });
+
+  const [showStatsModal, setShowStatsModal] = useState(false);
+  const [quizStats, setQuizStats] = useState(null);
+
+  const [showEditQuizModal, setShowEditQuizModal] = useState(false);
+  const [editingQuiz, setEditingQuiz] = useState(null);
 
   // User Modal States
   const [showUserModal, setShowUserModal] = useState(false);
@@ -168,7 +177,12 @@ const AdminDashboard = () => {
   const createQuiz = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${API_URL}/quiz/generateQuestions`, newQuiz);
+      const payload = {
+        ...newQuiz,
+        startDate: `${newQuiz.startDate}T${newQuiz.startTime}:00`,
+        endDate: `${newQuiz.endDate}T${newQuiz.endTime}:00`,
+      };
+      await axios.post(`${API_URL}/quiz/generateQuestions`, payload);
       setSuccess("Quiz created successfully!");
       setShowQuizModal(false);
       refreshData();
@@ -197,6 +211,46 @@ const AdminDashboard = () => {
     } catch (error) {
       console.error("Error fetching questions:", error);
       setQuizQuestions([]);
+    }
+  };
+
+  const handleViewStats = async (quizId) => {
+    try {
+      const res = await axios.get(`${API_URL}/quiz/${quizId}/stats`);
+      setQuizStats(res.data);
+      setShowStatsModal(true);
+    } catch (err) {
+      setError("Failed to fetch quiz statistics");
+    }
+  };
+
+  const handleEditQuiz = (quiz) => {
+    const startDateTime = quiz.startDate ? new Date(quiz.startDate) : new Date();
+    const endDateTime = quiz.endDate ? new Date(quiz.endDate) : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+    
+    setEditingQuiz({
+      ...quiz,
+      startDate: startDateTime.toISOString().split("T")[0],
+      startTime: `${String(startDateTime.getHours()).padStart(2, '0')}:${String(startDateTime.getMinutes()).padStart(2, '0')}`,
+      endDate: endDateTime.toISOString().split("T")[0],
+      endTime: `${String(endDateTime.getHours()).padStart(2, '0')}:${String(endDateTime.getMinutes()).padStart(2, '0')}`,
+    });
+    setShowEditQuizModal(true);
+  };
+
+  const updateQuiz = async () => {
+    try {
+      const updatedQuiz = {
+        ...editingQuiz,
+        startDate: `${editingQuiz.startDate}T${editingQuiz.startTime}:00`,
+        endDate: `${editingQuiz.endDate}T${editingQuiz.endTime}:00`,
+      };
+      await axios.put(`${API_URL}/quiz/${editingQuiz.id}`, updatedQuiz);
+      setSuccess("Quiz updated successfully!");
+      setShowEditQuizModal(false);
+      refreshData();
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to update quiz");
     }
   };
 
@@ -508,6 +562,22 @@ const AdminDashboard = () => {
                               <FaEye />
                             </ActionButton>
                             <ActionButton
+                              variant="outline-info"
+                              size="sm"
+                              className="me-2"
+                              onClick={() => handleViewStats(quiz.id)}
+                            >
+                              <FaChartPie />
+                            </ActionButton>
+                            <ActionButton
+                              variant="outline-warning"
+                              size="sm"
+                              className="me-2"
+                              onClick={() => handleEditQuiz(quiz)}
+                            >
+                              <FaEdit />
+                            </ActionButton>
+                            <ActionButton
                               variant="outline-danger"
                               size="sm"
                               onClick={() => deleteQuiz(quiz.id)}
@@ -723,12 +793,43 @@ const AdminDashboard = () => {
                 <Col md={6}>
                   <Form.Group className="mb-4">
                     <Form.Label className="fw-bold text-muted d-flex align-items-center">
+                      <FaClock className="me-2" /> Start Time
+                    </Form.Label>
+                    <Form.Control
+                      type="time"
+                      value={newQuiz.startTime}
+                      onChange={(e) => setNewQuiz({ ...newQuiz, startTime: e.target.value })}
+                      required
+                      className="py-2 rounded-3"
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+              
+              <Row>
+                <Col md={6}>
+                  <Form.Group className="mb-4">
+                    <Form.Label className="fw-bold text-muted d-flex align-items-center">
                       <FaCalendarAlt className="me-2" /> End Date
                     </Form.Label>
                     <Form.Control
                       type="date"
                       value={newQuiz.endDate}
                       onChange={(e) => setNewQuiz({ ...newQuiz, endDate: e.target.value })}
+                      required
+                      className="py-2 rounded-3"
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={6}>
+                  <Form.Group className="mb-4">
+                    <Form.Label className="fw-bold text-muted d-flex align-items-center">
+                      <FaClock className="me-2" /> End Time
+                    </Form.Label>
+                    <Form.Control
+                      type="time"
+                      value={newQuiz.endTime}
+                      onChange={(e) => setNewQuiz({ ...newQuiz, endTime: e.target.value })}
                       required
                       className="py-2 rounded-3"
                     />
@@ -746,6 +847,138 @@ const AdminDashboard = () => {
                 </Button>
               </div>
             </Form>
+          </Modal.Body>
+        </Modal>
+
+        {/* ===== EDIT QUIZ MODAL ===== */}
+        <Modal
+          show={showEditQuizModal}
+          onHide={() => setShowEditQuizModal(false)}
+          centered
+          backdrop="static"
+          size="lg"
+        >
+          <Modal.Header closeButton className="bg-warning text-white">
+            <Modal.Title className="d-flex align-items-center">
+              <FaEdit className="me-2" /> Edit Quiz
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {editingQuiz && (
+              <Form>
+                <Row>
+                  <Col md={6}>
+                    <Form.Group className="mb-4">
+                      <Form.Label className="fw-bold text-muted d-flex align-items-center">
+                        <FaLayerGroup className="me-2" /> Quiz Name
+                      </Form.Label>
+                      <Form.Control
+                        type="text"
+                        value={editingQuiz.name || ""}
+                        onChange={(e) =>
+                          setEditingQuiz({ ...editingQuiz, name: e.target.value })
+                        }
+                        className="py-2 rounded-3"
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={6}>
+                    <Form.Group className="mb-4">
+                      <Form.Label className="fw-bold text-muted d-flex align-items-center">
+                        <FaChartLine className="me-2" /> Difficulty
+                      </Form.Label>
+                      <Form.Select
+                        value={editingQuiz.difficulty || ""}
+                        onChange={(e) =>
+                          setEditingQuiz({ ...editingQuiz, difficulty: e.target.value })
+                        }
+                        className="py-2 rounded-3"
+                      >
+                        <option value="Easy">Easy</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Hard">Hard</option>
+                      </Form.Select>
+                    </Form.Group>
+                  </Col>
+                </Row>
+                
+                <Row>
+                  <Col md={6}>
+                    <Form.Group className="mb-4">
+                      <Form.Label className="fw-bold text-muted d-flex align-items-center">
+                        <FaCalendarAlt className="me-2" /> Start Date
+                      </Form.Label>
+                      <Form.Control
+                        type="date"
+                        value={editingQuiz.startDate || ""}
+                        onChange={(e) =>
+                          setEditingQuiz({ ...editingQuiz, startDate: e.target.value })
+                        }
+                        className="py-2 rounded-3"
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={6}>
+                    <Form.Group className="mb-4">
+                      <Form.Label className="fw-bold text-muted d-flex align-items-center">
+                        <FaClock className="me-2" /> Start Time
+                      </Form.Label>
+                      <Form.Control
+                        type="time"
+                        value={editingQuiz.startTime || ""}
+                        onChange={(e) =>
+                          setEditingQuiz({ ...editingQuiz, startTime: e.target.value })
+                        }
+                        className="py-2 rounded-3"
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+                
+                <Row>
+                  <Col md={6}>
+                    <Form.Group className="mb-4">
+                      <Form.Label className="fw-bold text-muted d-flex align-items-center">
+                        <FaCalendarAlt className="me-2" /> End Date
+                      </Form.Label>
+                      <Form.Control
+                        type="date"
+                        value={editingQuiz.endDate || ""}
+                        onChange={(e) =>
+                          setEditingQuiz({ ...editingQuiz, endDate: e.target.value })
+                        }
+                        className="py-2 rounded-3"
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={6}>
+                    <Form.Group className="mb-4">
+                      <Form.Label className="fw-bold text-muted d-flex align-items-center">
+                        <FaClock className="me-2" /> End Time
+                      </Form.Label>
+                      <Form.Control
+                        type="time"
+                        value={editingQuiz.endTime || ""}
+                        onChange={(e) =>
+                          setEditingQuiz({ ...editingQuiz, endTime: e.target.value })
+                        }
+                        className="py-2 rounded-3"
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+                
+                <div className="d-grid gap-2 mt-4">
+                  <Button
+                    variant="warning"
+                    onClick={updateQuiz}
+                    className="rounded-pill py-2 fw-bold text-white"
+                  >
+                    Save Changes
+                  </Button>
+                </div>
+              </Form>
+            )}
           </Modal.Body>
         </Modal>
 
@@ -888,6 +1121,71 @@ const AdminDashboard = () => {
                   </Button>
                 </div>
               </Form>
+            )}
+          </Modal.Body>
+        </Modal>
+
+        {/* ===== STATS MODAL ===== */}
+        <Modal
+          show={showStatsModal}
+          onHide={() => setShowStatsModal(false)}
+          centered
+          size="lg"
+        >
+          <Modal.Header closeButton className="bg-dark text-white">
+            <Modal.Title className="d-flex align-items-center">
+              <FaChartPie className="me-2" /> Quiz Statistics
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {quizStats ? (
+              <>
+                <Row className="mb-4">
+                  <Col md={4}>
+                    <h5>Total Players</h5>
+                    <p>{quizStats.totalPlayers || 0}</p>
+                  </Col>
+                  <Col md={4}>
+                    <h5>Average Score</h5>
+                    <p>{quizStats.averageScore?.toFixed(2) || 0}</p>
+                  </Col>
+                  <Col md={4}>
+                    <h5>Total Likes</h5>
+                    <p>{quizStats.likes || 0}</p>
+                  </Col>
+                </Row>
+                <h5 className="mt-4 mb-3">Score Breakdown</h5>
+                <StyledTable striped bordered hover responsive>
+                  <thead>
+                    <tr>
+                      <th>Player</th>
+                      <th>Score</th>
+                      <th>Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {quizStats.scores?.map((s, i) => (
+                      <tr key={i}>
+                        <td>{s.playerName}</td>
+                        <td>{s.score}</td>
+                        <td>
+  {new Date(s.date).toLocaleString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
+  })}
+</td>
+
+
+                      </tr>
+                    ))}
+                  </tbody>
+                </StyledTable>
+              </>
+            ) : (
+              <p>No statistics available.</p>
             )}
           </Modal.Body>
         </Modal>
