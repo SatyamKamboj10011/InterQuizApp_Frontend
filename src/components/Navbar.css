@@ -1,0 +1,94 @@
+.custom-navbar {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 1rem 0;
+}
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.brand-icon {
+  font-size: 2rem;
+  margin-right: 0.5rem;
+  color: #1e293b;
+}
+
+.brand-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nav-link {
+  color: #334155 !important;
+  font-weight: 500;
+  font-size: 1.1rem;
+  padding: 0.5rem 1.2rem !important;
+  margin: 0 0.2rem;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+}
+
+.nav-link:hover {
+  background: rgba(30, 41, 59, 0.05);
+  transform: translateY(-1px);
+}
+
+.nav-link.active {
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  color: white !important;
+}
+
+.profile-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  color: white !important;
+  border-radius: 50px !important;
+  padding: 0.5rem 1.5rem !important;
+  margin-left: 0.5rem;
+}
+
+.profile-link:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(30, 41, 59, 0.15);
+}
+
+.profile-icon {
+  font-size: 1.2rem;
+}
+
+.custom-toggler {
+  border: none !important;
+}
+
+.custom-toggler .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(30, 41, 59, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+/* Responsive Design */
+@media (max-width: 991.98px) {
+  .nav-link {
+    padding: 0.7rem 1rem !important;
+    margin: 0.2rem 0;
+  }
+
+  .profile-link {
+    margin: 0.5rem 0;
+  }
+
+  .navbar-collapse {
+    background: rgba(255, 255, 255, 0.98);
+    padding: 1rem;
+    border-radius: 12px;
+    margin-top: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+} 

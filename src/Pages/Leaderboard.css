@@ -1,0 +1,162 @@
+@import '../styles/theme.css';
+
+.leaderboard-container {
+  padding: 2rem 0;
+  min-height: 100vh;
+  background: var(--primary-gradient);
+}
+
+.leaderboard-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.trophy-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  background: var(--gold-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.leaderboard-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.leaderboard-header p {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
+.leaderboard-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.leaderboard-table {
+  margin-bottom: 0;
+}
+
+.leaderboard-table thead th {
+  background: var(--bg-hover);
+  border: none;
+  color: var(--text-muted);
+  font-weight: 600;
+  padding: 1rem;
+}
+
+.leaderboard-table tbody tr {
+  transition: var(--transition-all);
+}
+
+.leaderboard-table tbody tr:hover {
+  background: var(--bg-hover);
+}
+
+.top-player {
+  background: rgba(255, 215, 0, 0.05);
+}
+
+.rank-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+}
+
+.rank-icon {
+  font-size: 1.5rem;
+}
+
+.rank-icon.gold {
+  color: var(--accent-gold);
+}
+
+.rank-icon.silver {
+  color: var(--accent-silver);
+}
+
+.rank-icon.bronze {
+  color: var(--accent-bronze);
+}
+
+.rank-number {
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.player-cell {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.player-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid rgba(30, 41, 59, 0.1);
+}
+
+.player-name {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.score-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.score-value {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.score-label {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.win-rate {
+  font-weight: 600;
+  color: var(--accent-success);
+  background: rgba(16, 185, 129, 0.1);
+  padding: 0.3rem 0.8rem;
+  border-radius: var(--radius-full);
+  display: inline-block;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .leaderboard-header {
+    padding: 1.5rem;
+  }
+
+  .leaderboard-header h1 {
+    font-size: 2rem;
+  }
+
+  .player-name {
+    font-size: 0.9rem;
+  }
+
+  .score-cell {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .score-label {
+    font-size: 0.8rem;
+  }
+} 

@@ -1,0 +1,30 @@
+/* Profile.css */
+.profile-container {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.profile-loading {
+  margin-top: 100px;
+}
+
+.profile-card {
+  background: #ffffff;
+  border-radius: 12px;
+  transition: all 0.3s ease-in-out;
+}
+
+.profile-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.stat-box {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.stat-box:hover {
+  transform: scale(1.05);
+  background-color: #f1f1f1;
+}
